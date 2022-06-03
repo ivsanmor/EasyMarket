@@ -34,7 +34,7 @@ import net.javaguides.springboot.security.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
@@ -52,7 +52,7 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
 
-    @PostMapping("/nuevo")
+    @PostMapping("/signup")
     public ResponseEntity<?> nuevo(@Validated @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity("campos mal puestos o email inválido", HttpStatus.BAD_REQUEST);
@@ -72,7 +72,7 @@ public class AuthController {
         return new ResponseEntity("usuario guardado", HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public ResponseEntity<JwtDto> login(@Validated @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity("campos mal puestos", HttpStatus.BAD_REQUEST);

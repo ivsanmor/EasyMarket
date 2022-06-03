@@ -3,6 +3,7 @@ package net.javaguides.springboot.controller;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import net.javaguides.springboot.service.ProductoService;
 
 @RestController
 @RequestMapping("/api/productos")
+@CrossOrigin("*")
 public class ProductoController {
 
 	
@@ -45,7 +47,6 @@ public class ProductoController {
 	// http://localhost:8080/api/productos/1
 	@DeleteMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ProductoDTO deleteProducto(@PathVariable("id") long id) throws Exception{
-
 		return productoService.deleteProducto(id);
 	}
 	
