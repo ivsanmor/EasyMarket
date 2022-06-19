@@ -31,7 +31,7 @@ public class ProductoServiceImpl implements ProductoService{
 		
 		List<ProductoDTO> productosDto = new ArrayList<ProductoDTO>();
 		
-		List<Producto> productos = productoRepository.findAll();
+		List<Producto> productos = productoRepository.getAllProductos();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Producto producto : productos) {
 			
@@ -51,7 +51,7 @@ public class ProductoServiceImpl implements ProductoService{
 		ModelMapper modelMapper = new ModelMapper();
 		if (id != 0) {
 			
-			Producto producto = productoRepository.getById(id);
+			Producto producto = productoRepository.getProductoById(id);
 			
 			if (producto != null) {
 				productoDto = modelMapper.map(producto, ProductoDTO.class);
@@ -107,11 +107,10 @@ public class ProductoServiceImpl implements ProductoService{
 	@Override
 	public ProductoDTO saveOrUpdate(ProductoDTO producto) throws Exception {
 		
-		System.out.println(producto.toString());
 		ProductoDTO productoDto = null;
 		ModelMapper modelMapper = new ModelMapper();
 		
-		if (producto != null && producto.getIdCategoria() != null) {
+		if (producto != null) {
 			Producto productoModel = modelMapper.map(producto, Producto.class);
 			System.out.println(productoModel.toString()); 
 			if(productoModel.isActivo() == false) {
@@ -121,8 +120,6 @@ public class ProductoServiceImpl implements ProductoService{
 			productoModel = productoRepository.save(productoModel);
 			productoDto = modelMapper.map(productoModel, ProductoDTO.class);
 			
-		}else {
-			throw new Exception("Producto vacío");
 		}
 		
 		return productoDto;

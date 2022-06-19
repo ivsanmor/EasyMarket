@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 import net.javaguides.springboot.dto.CestaDTO;
+import net.javaguides.springboot.dto.CestaProductoDTO;
 import net.javaguides.springboot.model.Cesta;
+import net.javaguides.springboot.model.CestaProducto;
+import net.javaguides.springboot.repository.CategoriaRepository;
+import net.javaguides.springboot.repository.CestaProductoRepository;
 import net.javaguides.springboot.repository.CestaRepository;
 import net.javaguides.springboot.service.CestaService;
 
@@ -18,12 +22,20 @@ public class CestaServiceImpl implements CestaService{
 	
 	private CestaRepository cestaRepository;
 	
+	private CestaProductoRepository cestaProductoRepository;
+	
+	public CestaServiceImpl(CestaRepository cestaRepository, CestaProductoRepository cestaProductoRepository) {
+		super();
+		this.cestaRepository = cestaRepository;
+		this.cestaProductoRepository = cestaProductoRepository;
+	}
+	
 	@Override
 	public List<CestaDTO> getAllCestas() {
 		
 		List<CestaDTO> cestasDto = new ArrayList<CestaDTO>();
 		
-		List<Cesta> cestas = cestaRepository.findAll();
+		List<Cesta> cestas = cestaRepository.getAllCestas();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Cesta cesta : cestas) {
 			
@@ -43,7 +55,7 @@ public class CestaServiceImpl implements CestaService{
 		ModelMapper modelMapper = new ModelMapper();
 		if (id != 0) {
 			
-			Cesta cesta = cestaRepository.getById(id);
+			Cesta cesta = cestaRepository.getCestaById(id);
 			
 			if (cesta != null) {
 				cestaDto = modelMapper.map(cesta, CestaDTO.class);
@@ -98,9 +110,6 @@ public class CestaServiceImpl implements CestaService{
 		
 		if (cesta != null && cesta.getUsuarioId() != null) {
 			Cesta cestaModel = modelMapper.map(cesta, Cesta.class);
-			if (cestaModel.isActivo() == false) {
-				cestaModel.setActivo(Boolean.TRUE);
-			}
 			
 			cestaModel = cestaRepository.save(cestaModel);
 			cestaDto = modelMapper.map(cestaModel, CestaDTO.class);
@@ -110,6 +119,42 @@ public class CestaServiceImpl implements CestaService{
 		}
 		
 		return cestaDto;
+	}
+
+	@Override
+	public CestaProductoDTO saveCestaProducto(CestaProductoDTO cestaProducto) throws Exception {
+		CestaProductoDTO cestaDto = null;
+		ModelMapper modelMapper = new ModelMapper();
+		
+		if (cestaProducto != null) {
+			CestaProducto cestaModel = modelMapper.map(cestaProducto, CestaProducto.class);
+			
+			
+			cestaModel = cestaProductoRepository.save(cestaModel);
+			cestaDto = modelMapper.map(cestaModel, CestaProductoDTO.class);
+			
+		}else {
+			throw new Exception("Producto de la cesta vacío");
+		}
+		
+		return cestaDto;
+	}
+
+	@Override
+	public List<CestaProductoDTO> getProductosByCesta(Long id) {
+
+		List<CestaProductoDTO> cestasProductoDto = new ArrayList<CestaProductoDTO>();
+		
+		List<CestaProducto> cestasProducto = cestaProductoRepository.getProductosByCestas(id);
+		ModelMapper modelMapper = new ModelMapper();
+		for (CestaProducto cestaProducto : cestasProducto) {
+			
+			CestaProductoDTO cestaDto = modelMapper.map(cestaProducto, CestaProductoDTO.class);
+			cestasProductoDto.add(cestaDto);
+		}
+		
+		
+		return cestasProductoDto;
 	}
 
 }

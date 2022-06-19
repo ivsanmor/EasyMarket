@@ -32,26 +32,42 @@ import net.javaguides.springboot.security.jwt.JwtProvider;
 import net.javaguides.springboot.security.service.RolService;
 import net.javaguides.springboot.security.service.UsuarioService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AuthController.
+ */
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin("*")
 public class AuthController {
 
+    /** The password encoder. */
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    /** The authentication manager. */
     @Autowired
     AuthenticationManager authenticationManager;
 
+    /** The usuario service. */
     @Autowired
     UsuarioService usuarioService;
 
+    /** The rol service. */
     @Autowired
     RolService rolService;
 
+    /** The jwt provider. */
     @Autowired
     JwtProvider jwtProvider;
 
+    /**
+     * Nuevo.
+     *
+     * @param nuevoUsuario the nuevo usuario
+     * @param bindingResult the binding result
+     * @return the response entity
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> nuevo(@Validated @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
@@ -72,6 +88,13 @@ public class AuthController {
         return new ResponseEntity("usuario guardado", HttpStatus.CREATED);
     }
 
+    /**
+     * Login.
+     *
+     * @param loginUsuario the login usuario
+     * @param bindingResult the binding result
+     * @return the response entity
+     */
     @PostMapping("/signin")
     public ResponseEntity<JwtDto> login(@Validated @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())

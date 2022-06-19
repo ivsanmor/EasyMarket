@@ -18,12 +18,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JwtEntryPoint.
+ */
 @Component
 public class JwtEntryPoint implements AuthenticationEntryPoint {
 
+	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
 
-	 @Override
+	 /**
+ 	 * Commence.
+ 	 *
+ 	 * @param request the request
+ 	 * @param response the response
+ 	 * @param authException the auth exception
+ 	 * @throws IOException Signals that an I/O exception has occurred.
+ 	 * @throws ServletException the servlet exception
+ 	 */
+ 	@Override
 	  public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
 	      throws IOException, ServletException {
 	    logger.error("Unauthorized error: {}", authException.getMessage());

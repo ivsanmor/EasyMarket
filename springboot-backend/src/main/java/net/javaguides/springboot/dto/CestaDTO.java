@@ -1,24 +1,29 @@
 package net.javaguides.springboot.dto;
 
-import java.util.List;
-
 import lombok.Data;
+
+/**
+ * DTO de cesta 
+ * 
+ * @author Ivan
+ */
 @Data
 public class CestaDTO {
 
+	/** id de las cestas */
 	private Long id;
 
+	/** precio total de las cestas */
 	private Double precioTotal;
 
+	/** observaciones de las cestas */
 	private String observaciones;
 
-	private boolean cancelar;
-
+	/** activo de las cestas */
 	private boolean activo;
 	
-	String usuarioId;
-
-	private List<CestaProductoDTO> cestaProducto;
+	/** usuario al que pertenece la cesta */
+	Integer usuarioId;
 
 
 

@@ -10,26 +10,44 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Entidad de usuario cuyos atributos serviran para almacenar
+ * datos en la base de datos.
+ * 
+ * @author Ivan
+ */
 @Entity
+@Table(name = "usuario")
 public class Usuario {
 	
+	/** id autoincrementable de los usuario */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	/** nombre de los usuario */
 	@NonNull
 	private String nombre;
 	
+	/** nombre del usuario de los usuario */
 	@NonNull
 	@Column(unique = true)
 	private String nombreUsuario;
 	
+	/** email de los usuario */
 	@NonNull
 	private String email;
 	
+	/** password de los usuario */
 	@NonNull
 	private String password;
 	
+	/** activo de los usuario */
+	@Column(name = "activo")
+	private boolean activo;
+	
+	
+
 	@NonNull
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
@@ -47,6 +65,7 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 		this.email = email;
 		this.password = password;
+		this.activo = true;
 	}
 
 	public int getId() {
@@ -87,6 +106,14 @@ public class Usuario {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 	public Set<Rol> getRoles() {

@@ -8,12 +8,23 @@ import net.javaguides.springboot.security.entity.Rol;
 import net.javaguides.springboot.security.enums.RolNombre;
 import net.javaguides.springboot.security.service.RolService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CreateRoles.
+ */
 @Component
 public class CreateRoles implements CommandLineRunner {
 
+	/** The rol service. */
 	@Autowired
 	RolService rolService;
 
+	/**
+	 * Run.
+	 *
+	 * @param args the args
+	 * @throws Exception the exception
+	 */
 	@Override
 	public void run(String... args) throws Exception {
 

@@ -1,54 +1,44 @@
 package net.javaguides.springboot.model;
 
-import java.util.Objects;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Entidad de los productos que hay en cada cesta
+ * @author Ivan
+ */
 @Data
 @Entity
 @Table(name = "cesta_producto")
 public class CestaProducto {
 
+	/** id autoincrementable*/
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	/** la cesta*/
 	@JoinColumn(name = "cesta_id")
-	private Cesta cesta;
+	private Long cesta;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	/** el producto*/
 	@JoinColumn(name = "producto_id")
-	private Producto producto;
+	private Long producto;
 
+	/** cantidad de productos en la cesta*/
 	@Column(name = "cantidad")
 	private Integer cantidad;
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof CestaProducto))
-			return false;
-		CestaProducto that = (CestaProducto) o;
-		return Objects.equals(cesta.getId(), that.cesta.getId())
-				&& Objects.equals(producto.getNombre(), that.producto.getNombre())
-				&& Objects.equals(cantidad, that.cantidad);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cesta.getId(), producto.getNombre(), cantidad);
-	}
+	
 }
+
+
+

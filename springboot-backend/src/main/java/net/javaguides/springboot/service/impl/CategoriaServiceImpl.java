@@ -28,7 +28,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 		List<CategoriaDTO> categoriasDto = new ArrayList<CategoriaDTO>();
 
-		List<Categoria> categorias = categoriaRepository.findAll();
+		List<Categoria> categorias = categoriaRepository.getAllCategorias();
 		ModelMapper modelMapper = new ModelMapper();
 		for (Categoria categoria : categorias) {
 
@@ -47,7 +47,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 		ModelMapper modelMapper = new ModelMapper();
 		if (id != 0) {
 
-			Categoria categoria = categoriaRepository.getById(id);
+			Categoria categoria = categoriaRepository.getCategoriaById(id);
 
 			if (categoria != null) {
 				categoriaDto = modelMapper.map(categoria, CategoriaDTO.class);
@@ -107,6 +107,32 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 		} else {
 			throw new Exception("Categoria vacío");
+		}
+
+		return categoriaDto;
+	}
+
+	@Override
+	public List<String> getNombresCategorias() {
+		 return categoriaRepository.getNombresCategorias();
+
+	}
+
+	@Override
+	public CategoriaDTO getCategoriaByNombre(String nombre) throws Exception {
+		CategoriaDTO categoriaDto = null;
+		ModelMapper modelMapper = new ModelMapper();
+		if (!nombre.isEmpty()) {
+
+			Categoria categoria = categoriaRepository.getCategoriaByNombre(nombre);
+
+			if (categoria != null) {
+				categoriaDto = modelMapper.map(categoria, CategoriaDTO.class);
+			} else {
+				throw new ObjectNotFoundException("No existe categoria con el nombre: " + nombre);
+			}
+		} else {
+			throw new Exception("Id del categoria vacío");
 		}
 
 		return categoriaDto;

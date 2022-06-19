@@ -8,7 +8,18 @@ import net.javaguides.springboot.security.enums.RolNombre;
 
 import java.util.Optional;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface RolRepository.
+ */
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Integer> {
+	
+	/**
+	 * Find by rol nombre.
+	 *
+	 * @param rolNombre the rol nombre
+	 * @return the optional
+	 */
 	Optional<Rol> findByRolNombre(RolNombre rolNombre);
 }

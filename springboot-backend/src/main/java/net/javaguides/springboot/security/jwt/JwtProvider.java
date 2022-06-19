@@ -11,16 +11,30 @@ import net.javaguides.springboot.security.entity.UsuarioPrincipal;
 
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class JwtProvider.
+ */
 @Component
 public class JwtProvider {
+	
+	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
+	/** The secret. */
 	@Value("${jwt.secret}")
 	private String secret;
 
+	/** The expiration. */
 	@Value("${jwt.expiration}")
 	private int expiration;
 
+	/**
+	 * Generate token.
+	 *
+	 * @param authentication the authentication
+	 * @return the string
+	 */
 	public String generateToken(Authentication authentication) {
 		UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authentication.getPrincipal();
 		return Jwts.builder().setSubject(usuarioPrincipal.getUsername()).setIssuedAt(new Date())
@@ -28,10 +42,22 @@ public class JwtProvider {
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 
+	/**
+	 * Gets the nombre usuario from token.
+	 *
+	 * @param token the token
+	 * @return the nombre usuario from token
+	 */
 	public String getNombreUsuarioFromToken(String token) {
 		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
 	}
 
+	/**
+	 * Validate token.
+	 *
+	 * @param token the token
+	 * @return true, if successful
+	 */
 	public boolean validateToken(String token) {
 		try {
 			Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
